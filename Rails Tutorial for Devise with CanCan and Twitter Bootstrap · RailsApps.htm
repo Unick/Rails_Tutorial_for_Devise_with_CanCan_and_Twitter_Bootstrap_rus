@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Rails Tutorial for Devise with CanCan and Twitter Bootstrap &#183; RailsApps</title>
+    <link href="https://plus.google.com/u/0/b/117374718581973393536/117374718581973393536/posts/" rel="publisher" />
+    <link rel="stylesheet" href="http://railsapps.github.com/css/bootstrap.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="http://railsapps.github.com/css/screen.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="http://railsapps.github.com/css/gollum.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="http://railsapps.github.com/css/site.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="http://railsapps.github.com/css/syntax.css" type="text/css" charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-1.6.min.js" type="text/javascript"></script>
+    <script src="http://railsapps.github.com/javascript/jquery.text_selection-1.0.0.min.js" type="text/javascript"></script>
+    <script src="http://railsapps.github.com/javascript/jquery.previewable_comment_form.js" type="text/javascript"></script>
+    <script src="http://railsapps.github.com/javascript/jquery.tabs.js" type="text/javascript"></script>
+    <script src="http://railsapps.github.com/javascript/gollum.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-5109366-14']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a href="http://railsapps.github.com/" class="brand">RailsApps Project</a>
+        <ul class="pull-right nav">
+          <li><a href="http://blog.railsapps.org/" class="twitter">Blog</a></li>
+          <li><a href="http://twitter.com/rails_apps" class="twitter">Twitter</a></li>
+          <li><a href="https://plus.google.com/117374718581973393536" class="google">Google +</a></li>
+          <li><a href="https://github.com/RailsApps" class="github">GitHub Repository</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container"> 
+
+    <div class="content wikistyle gollum textile">
+      <h1>Учебник для Rails работающих с Devise, CanCan и Twitter Bootstrap</h1>
+<h4>от Daniel Kehoe</h4>
+<p><em>Последнее обновление от 19 August 2012</em></p>
+<p>Учебник Ruby on Rails показывающий как в приложении на Rails 3.2 использовать <strong>Devise</strong> с <strong>CanCan</strong> и <strong>Twitter Bootstrap</strong>.</p>
+<ul>
+<li>
+<a href="http://github.com/plataformatec/devise">Devise</a> дает вам готовые аутентификации и управление пользователями.</li>
+	<li>
+<a href="https://github.com/ryanb/cancan">CanCan</a> предоставляет разрешение, которое ограничивает то, что ресурсам данного пользователя разрешен доступ.</li>
+	<li>
+<a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> является интерфейсной основой для  <span class="caps">CSS</span> стиля.</li>
+</ul><p><img src="http://railsapps.github.com/images/rails3-bootstrap-devise-cancan.png" title="Rails Application for Devise with CanCan and Twitter Bootstrap" alt="Rails Application for Devise with CanCan and Twitter Bootstrap"></p>
+<p>Вы можете создать пример приложения из этого учебника или клонировать <a href="http://github.com/RailsApps/rails3-bootstrap-devise-cancan/">rails3-bootstrap-devise-cancan</a> из репозитория для законченного приложения. Если вы хотите использовать проект в качестве стартера программа для вашего собственные индивидуальные приложения смотрите <a href="https://github.com/RailsApps/rails3-bootstrap-devise-cancan">rails3-bootstrap-devise-cancan <span class="caps">README</span></a> как использовать шаблон приложения для создания собственной версии примера приложения. Создание приложение дает вам много возможностей, таких как использование Haml для просмотра, дополнительных Devise модулей, и других популярных gem ов например will-paginate.</p>
+<h3>Примеры и учебники RailsApps </h3>
+<p>Это одна из серии Rails примеров приложений и  учебников из  <a href="http://railsapps.github.com/">RailsApps Project</a>. Смотри список из подобных <a href="http://railsapps.github.com/rails-examples-tutorials.html">Rails примеров, учебников, и начинающих приложений</a>.</p>
+<p>Этот пример приложения основан на <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a> примере и учебнике. Добавлены <a href="https://github.com/ryanb/cancan">CanCan</a> и <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>. Смотрите <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a> примеры и учебники для начального создания приложения с <a href="http://rspec.info/">RSpec</a> и <a href="http://cukes.info/">Cucumber</a>.</p>
+<p>Это приложение пример использует ActiveRecord и базу данных SQLite. Можно использовать Mongoid ORM с хранилищем MongoDB вместо этого для ускоренного развития без схемы или миграций. Пример приложения и учебник <a href="https://github.com/RailsApps/rails3-mongoid-devise">rails3-mongoid-devise</a> показывают как использовать Devise и Mongoid с RSpec и Cucumber.</p>
+<p>Чтобы увидеть более сложные приложения, которое использует Devise, CanCan, и Twitter Bootstrap, смотрите <a href="https://github.com/RailsApps/rails-prelaunch-signup">rails-prelaunch-signup</a> примеры и учебники с RailsApps project.</p>
+<h2>
+<a href="http://www.twitter.com/rails_apps"><img src="http://twitter-badges.s3.amazonaws.com/t_logo-a.png" title="Follow on Twitter" alt="Follow on Twitter"></a> Сходите на Twitter</h2>
+<p>Посмотрите проект на Twitter: <a href="http://twitter.com/rails_apps">rails_apps</a>. Похвалите если вам нравится то, что вы нашли.</p>
+<h2>
+<img src="http://railsapps.github.com/images/rails-36x36.jpg" title="Tutorial" alt="Tutorial"> Учебник</h2>
+<p>Это руководство документирует каждый шаг, который вам  необходимо выполнить для того что бы создать приложение. Каждый шаг описан сжато, так что полный новичок может создать это приложение без каких-либо дополнительных знаний. Тем не менее, никакого дополнительного объяснения для любого из шагов не предоставляется , так что если вы новичок, мы посоветуем вам искать введение в Rails в другом месте. См. ресурсы для начала работы с <a href="http://railsapps.github.com/rails.html">Rails</a>.</p>
+<h2>Перед началом работы</h2>
+<p>Если следовать этому учебнику внимательно, вы будете иметь рабочее приложение, которое точно соответствует примеру приложения в репозитории GitHub. Пример приложения вашей эталонной работы находится в <a href="http://github.com/RailsApps/rails3-bootstrap-devise-cancan/">rails3-bootstrap-devise-cancan</a> репозиторий . Если вы найдете проблемы с созданием вашего приложения из этого учебника, скачайте пример приложения (in Git speak, clone it) и используйте инструменты для сравнения файлов для определения ошибок. На Mac, <a href="http://stackoverflow.com/questions/187064/graphical-diff-for-mac-os-x">хорошим инструментом сравнения файлов</a> является <a href="http://en.wikipedia.org/wiki/Apple_Developer_Tools#FileMerge">FileMerge</a>, <a href="http://sourcegear.com/diffmerge/">DiffMerge</a>, <a href="http://www.kaleidoscopeapp.com/">Kaleidoscope</a>, или Ian Baird’s <a href="http://www.changesapp.com/">Changes</a>.</p>
+<p>Если вы клонировали и установить пример приложения и обнаружили проблемы или хотите предложить улучшения, пожалуйста, создайте на <a href="http://github.com/RailsApps/rails3-bootstrap-devise-cancan/issues">GitHub вопрос </a>.</p>
+<p>Для улучшения этого руководства, пожалуйста, оставьте комментарий ниже.</p>
+<h2>Создание приложения</h2>
+<p>У вас есть несколько вариантов получения кода. Вы можете <em>скопировать из руководства</em>, <em>fork</em>, <em>clone</em>, or <em>generate</em>.</p>
+<h3>Копировать из руководства</h3>
+<p>Чтобы создать приложение, вы можете вырезать и вставить код из учебника в собственные файлы. Это немного утомительно и подвержено ошибкам, но вы будете иметь хорошую возможность изучить код внимательно.</p>
+<h3>Fork</h3>
+<p>Если вы хотите, чтобы добавлять новые функции(или исправить ошибки), вы можете сделать вилку из GitHub репозитария и <a href="http://help.github.com/send-pull-requests/">и стянуть весь код</a>. Ваш вклад  в код привествуется!</p>
+<h3>Clone</h3>
+<p>Если вы хотите скопировать и настроить приложение с изменениями, которые могут быть полезны только для вашего собственного проекта, Вы можете скачать или клонировать из GitHub репозитария. Вам нужно будет искать и заменить название проекта во всей программе. Вы, наверное, должны генерировать приложения вместо копирования(см. ниже).</p>
+<h3>Generate</h3>
+<p>Если вы используете <a href="http://railsapps.github.com/rails-composer/">Rails Composer</a> инструмент для генерации нового экземпляра приложения. Вы сможете дать ему собственное имя проекта, когда вы создаете приложение. Создание приложения дает вам дополнительные опции.</p>
+<p>Для создания примера приложения, запустите команду:</p>
+<pre>
+$ rails new rails3-bootstrap-devise-cancan -m https://raw.github.com/RailsApps/rails-composer/master/composer.rb -T
+</pre>
+<p>Используйте флаг <code>-T</code> для пропуска  файлов Test::Unit.</p>
+<p>Символ <code>$</code> указывает на подсказку оболочки; не включайте это, когда Вы выполняете команду  .</p>
+<p>Это создает новое приложение Rails под названием <code>rails3-bootstrap-devise-cancan</code> на Вашем компьютере. Вы можете использовать другое имя, если Вы желаете.</p>
+<p>Вы будете видеть подсказку:</p>
+<pre>
+question  Install an example application?
+      1)  I want to build my own application
+      2)  rails3-bootstrap-devise-cancan
+      3)  rails3-devise-rspec-cucumber
+      4)  rails3-mongoid-devise
+      5)  rails3-mongoid-omniauth
+      6)  rails3-subdomains
+</pre>
+<p>Выберите <strong>2) rails3-bootstrap-devise-cancan</strong>.</p>
+<p>Шаблон генератора приложения попросит у Вас дополнительные предпочтения.</p>
+<p>Для этой обучающей программы, выберите “WEBrick” для своего веб-сервера.</p>
+<p>Вы можете захотеть установить robots.txt файл, чтобы запретить паукам сохранить Ваш сайт в результататах поиска Google.</p>
+<p>Если Вы будете пользователем Linux, и Вы не установили node.js, то Вы должны будете ответить "да", чтобы установить ‘therubyracer’ среда выполнения JavaScript.</p>
+<p>Если Вы установили <a href="https://rvm.io/">rvm</a>,  Ruby Version Manager, я рекомендую вам ответить “yes”, к подсказке “Create a project-specific rvm gemset and .rvmrc?” См. статью <a href="http://railsapps.github.com/installing-rails.html">Установка  Rails</a> и узнаите о выгоде использования rvm.</p>
+<p>Наконец, программа спросит, хотите ли Вы создать репозитарий на GitHub.</p>
+<p>Если Вы получаете ошибку “You have already activated (…) but your Gemfile requires (…)”, попытайтесь удалить rails3-bootstrap-devise-cancan папку и выполнить команду снова.</p>
+<h2>Предположения</h2>
+<p>Прежде, чем начать эту обучающую программу, Вы должны установить</p>
+<ul>
+<li>Язык Ruby (version 1.9.3 или более новый)</li>
+<li>Rails 3.2</li>
+</ul><p>Проверьте, что соответствующие версии Руби и Рельсов установлены в Вашей среде проектирования:</p>
+<p><code>$ ruby -v</code><br><code>$ rails -v</code></p>
+<p>Убедитесь, что читали<a href="http://railsapps.github.com/installing-rails.html">Установка  Rails</a> для подробных инструкций и советов.</p>
+<h2>Создайте Приложение Rails</h2>
+<p>Здесь, мы показываем, как создать приложение с нуля.</p>
+<p>(Это было уже сделано для Вас, если Вы используете инструмент <href = "http://railsapps.github.com/rails-composer/"> Rails Composer </a>.)</p>
+<p>Откройте терминал, переместитесь к папке, где Вы имеете права создать файлы, и напечатайте:</p>
+<p><code>$ rails new rails3-bootstrap-devise-cancan -T</code></p>
+<p>Используйте флаг <code>-T</code> для пропуска файлов Test::Unit (так как Вы используете RSpec).</p>
+<p>Вы можете дать приложению другое имя, если Вы создаете его для своего собственного использования. Для этой обучающей программы мы возьмем имя, "rails3-bootstrap-devise-cancan".</p>
+<p>Это создаст Rails приложение , которое использует базу данных SQLite для хранения данных.</p>
+<p>После того, как Вы создаете приложение, перейдите в его папку, чтобы продолжить работу непосредственно в приложении: </p>
+<p> <code> cd $ rails3-bootstrap-devise-cancan </code></p>
+<h3>Редактирование <span class="caps">README</span>
+</h3>
+<p>Если Вы - открываете исходные тексты приложения на GitHub, пожалуйста, отредактируйте  <span class="caps">README</span> README </span> файл, чтобы добавить описание приложения и Вашe контактныe данные. Изменения <span class="caps">README</span> важны, если Вы используете копию приложения в качестве примера. Я ошибся (и связался) как автор приложений, которые скопированы с моего примера.</p>
+<h2> Настройка контроля исходников(Git)</h2>
+<p>Если Вы создадите приложение для развертывания в производство, то Вы будете хотеть настроить  репозитарий управления исходными текствми в этом пункте. Если Вы создаете холостое приложение для своего собственного образования, Вы можете пропустить этот шаг.</p>
+<p><code>$ git init .</code><br>
+<code>$ git add .</code><br>
+<code>$ git commit -m 'Initial commit'</code></p>
+<p>Для более детальных инструкции смотрите <a href="http://railsapps.github.com/rails-git.html">Использование Git вместе с  Rails</a>.</p>
+<h2>Установка Gems</h2>
+<h3>Рассказ о требуемых Gems</h3>
+<p>Приложение использует следующие gems:</p>
+<ul>
+<li><a href="http://rubygems.org/gems/rails">rails</a></li>
+	<li><a href="http://rubygems.org/gems/rspec-rails">rspec-rails</a></li>
+	<li><a href="http://rubygems.org/gems/database_cleaner">database_cleaner</a></li>
+	<li><a href="http://rubygems.org/gems/factory_girl_rails">factory_girl_rails</a></li>
+	<li><a href="http://rubygems.org/gems/email_spec">email_spec</a></li>
+	<li><a href="http://rubygems.org/gems/cucumber-rails">cucumber-rails</a></li>
+	<li><a href="http://rubygems.org/gems/capybara">capybara</a></li>
+	<li><a href="http://rubygems.org/gems/devise">devise</a></li>
+	<li><a href="http://rubygems.org/gems/cancan">cancan</a></li>
+	<li><a href="http://rubygems.org/gems/rolify">rolify</a></li>
+	<li><a href="http://rubygems.org/gems/bootstrap-sass">bootstrap-sass</a></li>
+</ul><h3>Установка ваших Gemfile</h3>
+<p>Это - хорошая идея создать новый gemset, использующий rvm, как описано в статье <href = "http://rvm.beginrescueend.com/"> Ruby Version Manager </a> <a href="http://railsapps.github.com/installing-rails.html">Установка Rails</a>.</p>
+<p>Смотрите <a href="http://railsapps.github.com/rails-3-2-example-gemfile.html">Пример Gemfiles для Rails 3.2</a>.</p>
+<p>Откройте ваш <strong>Gemfile</strong> и замените содержимое следующим :</p>
+<p><strong>Gemfile</strong></p>
+<pre>
+source 'https://rubygems.org'
+gem 'rails', '3.2.8'
+gem 'sqlite3'
+group :assets do
+  gem 'sass-rails',   '~&gt; 3.2.3'
+  gem 'coffee-rails', '~&gt; 3.2.1'
+  gem 'uglifier', '&gt;= 1.0.3'
+end
+gem 'jquery-rails'
+gem "rspec-rails", "&gt;= 2.9.0.rc2", :group =&gt; [:development, :test]
+gem "factory_girl_rails", "&gt;= 3.1.0", :group =&gt; [:development, :test]
+gem "email_spec", "&gt;= 1.2.1", :group =&gt; :test
+gem "cucumber-rails", "&gt;= 1.3.0", :group =&gt; :test
+gem "capybara", "&gt;= 1.1.2", :group =&gt; :test
+gem "database_cleaner", "&gt;= 0.7.2", :group =&gt; :test
+gem "launchy", "&gt;= 2.1.0", :group =&gt; :test
+gem "devise", "&gt;= 2.1.0.rc"
+gem "cancan", "&gt;= 1.6.7"
+gem "rolify", "&gt;= 3.1.0"
+gem "bootstrap-sass", "&gt;= 2.0.1"
+</pre>
+<p>Проверьте на <a href="http://rubygems.org/gems/rails">какая текущая версия Rails</a> и замените <code>gem 'rails', '3.2.8'</code> соотвественно.</p>
+<p><em>Отметка:</em> Пример RailsApps создается с приложением шаблоном созданным <a href="https://github.com/RailsApps/rails_apps_composer">Rails Apps Composer Gem</a>. По этой причине, группы, такие как <code>:development</code> или <code>:test</code> определены как действующие. Вы можете переформатировать Gemfiles, чтобы организовать группы в приятном глазу стиле. Функциональность от этого не измениться .</p>
+<h3>Установка требуемых Gems</h3>
+<p>Установка требуемых gems на ваш компьютер:</p>
+<p><code>$ bundle install</code></p>
+<p>Вы можете проверить какие gems установлены на Вашем компьютере:</p>
+<p><code>$ gem list</code></p>
+<p>Имейте в виду, что Вы установили эти gems локально. Когда Вы развертываете приложение на  другом сервере, те же самые gems (и их версии) должны быть доступными.</p> 
+<h2>Конфигурация для Haml</h2>
+<p>В этой обучающей программе, по умолчанию используется “<span class="caps">ERB</span>” механизм шаблонов Rails . Произвольно, Вы можете использовать другой механизм шаблона, такой как Haml. Смотрите инструкции для <a href="http://railsapps.github.com/rails-haml.html">Haml и Rails</a>.</p>
+<h2>Добавьте RSpec для Тестирования Модулями</h2>
+<p>Страничка <a href="http://railsapps.github.com/tutorial-rails-devise-rspec-cucumber.html">rails3-devise-rspec-cucumber tutorial</a> показывает как настроить Rspec и показывает примеры работы с Devise .</p>
+<h2>Добавить Cucumber для Behavior Driven Development</h2>
+<p>Страничка <a href="http://railsapps.github.com/tutorial-rails-devise-rspec-cucumber.html">rails3-devise-rspec-cucumber tutorial</a> показывает как установить Cucumber и предоставляет примеры сценариев для использования с Devise.</p>
+<h2>Тестирование Приложения</h2>
+<p>Вы можете проверить, что Ваше приложение работает должным образом, вводя команду</p>
+<p><code>$ rails server</code></p>
+<p>Чтобы видеть Ваше приложение в действии, откройте окно браузера и переместитесь к <a href="http://localhost:3000">http://localhost:3000/</a>. Вы должны видеть страницу информации по умолчанию для Rails.</p>
+<p>Для остановки сервера нажмите Control-C.</p>
+<h2>Настройка Email</h2>
+<p><em>Шаг “Настройка Email” идентичен действиям из обучающей программы <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a>.</em></p>
+<p>Вы должны сконфигурировать приложение для своего почтового ящика, если Вы хотите, чтобы Ваше приложение послало электронные письма, например, если Вы произвели приложение с опцией, чтобы установить модуль Devise <code>:confirmable</code>.</p>
+<h3>Настройка ActionMailer</h3>
+<p>Удалите строки из файла <strong>config/environments/development.rb</strong>:</p>
+<pre>
+# Don't care if the mailer can't send
+config.action_mailer.raise_delivery_errors = false
+</pre>
+<p>Добавьте строки в файл <strong>config/environments/development.rb</strong>:</p>
+<pre>
+# ActionMailer Config
+config.action_mailer.default_url_options = { :host =&gt; 'localhost:3000' }
+config.action_mailer.delivery_method = :smtp
+# change to false to prevent email from being sent during development
+config.action_mailer.perform_deliveries = true
+config.action_mailer.raise_delivery_errors = true
+config.action_mailer.default :charset =&gt; "utf-8"
+</pre>
+<p>Добавьте строки в файл <strong>config/environments/production.rb</strong>:</p>
+<pre>
+config.action_mailer.default_url_options = { :host =&gt; 'example.com' }
+# ActionMailer Config
+# Setup for production - deliveries, no errors raised
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.perform_deliveries = true
+config.action_mailer.raise_delivery_errors = false
+config.action_mailer.default :charset =&gt; "utf-8"
+</pre>
+<p>Добавьте строки в файл <strong>config/environments/test.rb</strong>:</p>
+<pre>
+# ActionMailer Config
+config.action_mailer.default_url_options = { :host =&gt; 'example.com' }
+</pre>
+<p>Это установит приложение в качестве примера, чтобы поставить электронную почту и в development и в production. Это повысит ошибки доставки в development, но не production .</p>
+<p>В development, <code>config.action_mailer.default_url_options</code> установите host как  <code>localhost:3000</code> который позволит ссылкам в сообщениях подтверждения Devise работать должным образом во время development.</p>
+<p>Для test, <code>config.action_mailer.default_url_options</code> поставьте хост <code>example.com</code>. Любое значение позволяет тестам работать.</p>
+<p>Для production, вы должны изменить  <code>config.action_mailer.default_url_options</code> значение хоста с <code>example.com</code> на имя вашего домена.</p>
+<h3>Используйте учетную запись Gmail</h3>
+<p>Если Вы будете хотеть использовать учетную запись Gmail, чтобы послать электронное письмо, то Вы должны будете изменить файлы <strong>config/environments/development.rb</strong> и <strong>config/environments/production.rb</strong>:</p>
+<pre>
+config.action_mailer.smtp_settings = {
+  address: "smtp.gmail.com",
+  port: 587,
+  domain: "example.com",
+  authentication: "plain",
+  enable_starttls_auto: true,
+  user_name: ENV["GMAIL_USERNAME"],
+  password: ENV["GMAIL_PASSWORD"]
+}
+</pre>
+<p>Вы можете заменить <code>ENV["GMAIL_USERNAME"]</code> и <code>ENV["GMAIL_PASSWORD"]</code> вашими Gmail именем пользователя паролем. Однако, передача файла в общественный репозитарии GitHub выставит Ваш секретный пароль.</p>
+<p>Если Вы знакомы с установкой <a href="http://en.wikipedia.org/wiki/Environment_variable">Установка переменных окружения Unix </a>, желательно оставить <code>config.action_mailer.smtp_settings</code> неизменными и установить ваши переменные окружения в файле как их читают запуская интерактивную оболочку (файл <strong>~/.bashrc</strong> для bash shell). Это сохранит пароль из Вашего репозитария.</p>
+<p>Вы используете bash shell? Используйте <code>echo $SHELL</code> что бы узнать это. Для bash shell, редактируйте файл <strong>~/.bashrc</strong> и добавьте:</p>
+<pre>
+export GMAIL_USERNAME="myname@gmail.com"
+export GMAIL_PASSWORD="secret*"
+</pre>
+<p>Откройте новую оболочку или перезапустите Ваше терминальное приложение, чтобы продолжить.</p>
+<h2>Настройте Аутентификацию</h2>
+<p><em>Шаг “Настройка Аутентификации” идентичен действиям из обучающей программы <href = "https://github.com/RailsApps/rails3-devise-rspec-cucumber"> rails3-devise-rspec-cucumber </a>.</em></p>
+<p>Это приложение использует <a href="http://github.com/plataformatec/devise">Devise</a> для управлениемпользователями и  аутотенфикации.</p>
+<h3>Установка конфигурации для Devise</h3>
+<p>У Вас должен быть следующий gem в Вашем <strong>Gemfile</strong> файле:</p>
+<pre>
+gem 'devise'
+</pre>
+<p>Если Вы ещё не имеете, запустите:</p>
+<p><code>$ bundle install</code></p>
+<p>Запустите генератор для установки Devise:</p>
+<p><code>$ rails generate devise:install</code></p>
+<p>который устанавливает конфигурационный файл:</p>
+<p><strong>config/initializers/devise.rb</strong></p>
+<p>и файлы локализации.</p>
+<h3>Конфигурирование Devise для Email</h3>
+<p>Завершите свою конфигурацию электронной почты, изменяя</p>
+<p><strong>config/initializers/devise.rb</strong></p>
+<p>и установите <code>config.mailer_sender</code> опции для адреса электронной почты для сообщений, что Devise посылает из приложения.</p>
+<h3>Генерация модели и роутинга для пользователей</h3>
+<p>Используйте Devise для генерации модели и роутинга для пользователей.</p>
+<pre>
+$ rails generate devise User
+</pre>
+<p>Devise создаст миграцию базы данных и Пользовательскую модель.</p>
+<p>Devise попытается создать spec файл для Пользовательской модели. Если Вы уже загрузили spec файлы  приложения в качестве примера, не позволяйте генератору Devise перезаписывать <strong>spec/models/user_spec.rb</strong> файл.</p>
+<p>Devise изменяет <strong>config/routes.rb</strong> файл добавляя в него:</p>
+<pre>
+devise_for :users
+</pre>
+<p>который обеспечивает, полный набор маршрутов для пользователя регистрирующегося и входящего в систему. Если Вы запустите команду <code>rake routes</code>, Вы сможете видеть маршруты, которые создает эта строка кода</p>
+<h3>Приспособьте Cucumber тестирование для “Sign Out”</h3>
+<p>По умолчанию, Devise использует http <span class="caps">DELETE</span> запрос для выхода (<code>destroy_user_session_path</code>). Rails использует Javascript что бы осуществить http <span class="caps">DELETE</span> запрос. До Devise 1.4.1 (27 June 2011), Devise использовало http <span class="caps">GET</span> запрос для выхода. Хосе Вэлим объяснил изменение: “<span class="caps">GET</span> запросы не должны изменять состояние сервера.Запрос когда вы покидаете систему <span class="caps">GET</span> , <span class="caps">CSRF</span> может использоваться, чтобы заключить контракт с Вами автоматически , и что ссылки предварительной нагрузки могут в конечном счете заключить контракт с Вами также по ошибке.”</p>
+<p>Однако, Cucumber хочет проверить <span class="caps">GET</span> запрос не <span class="caps">DELETE</span> запрос. Если Вы намереваетесь использовать Cucumber с Devise, Вы должны изменить значение по умолчанию Devise от <span class="caps">DELETE</span> до  <span class="caps">GET</span> в <strong>/config/initializers/devise.rb</strong> для  Rails test окружения . Вы можете видеть предложение в другом месте, чтобы щипнуть routes.rb файл или изменить ссылку log_out, чтобы сделать затруднительное положение. Не необходимо, если Вы изменяетесь <strong>/config/initializers/devise.rb</strong> файл. </p>
+<pre>
+# The default HTTP method used to sign out a resource. Default is :delete.
+config.sign_out_via = Rails.env.test? ? :get : :delete
+</pre>
+<p>Так как Вы  используете Cucumber только во время тестирования, переключение  значения по умолчанию необходим только  для того, чтобы проверить.</p>
+<p>Если Вы не собираетесь использовать Cucumber, оставьте значение по умолчанию (<span class="caps">DELETE</span>).</p>
+<h3>Предотвратите Журналирование Паролей</h3>
+<p>Мы не хотим паролей, написанных в файл системного журнала.</p>
+<p>Измените файл <strong>config/application.rb</strong> включив туда:</p>
+<pre>
+config.filter_parameters += [:password, :password_confirmation]
+</pre>
+
+<p>Отметьте, что filter_parameters - массив.</p>
+<h2>Настройте авторизацию.</h2>
+<p><em>Учебник <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a> не включает шаг “Настройка авторизации”.</em></p>
+<p>Devise обеспечивает аутентификацию, , чтобы система надежно идентифицировала пользователей, удостоверяясь, что пользователь был действительно тем, кем он представляет себя. Мы должны добавить систему для авторизации что бы определить, должен ли у авторизованного пользователя быть доступ к защищенным ресурсам. Это приложение использует <a href="https://github.com/ryanb/cancan">CanCan</a> для авторизации, что бы ограничить доступ к страницам, которые должны  быть рассмотрены только администратором. Cancan - безусловно самый популярный gem, используемый, чтобы осуществить разрешение (смотрите категорию авторизация на сайте<a href="https://www.ruby-toolbox.com/categories/rails_authorization">The Ruby Toolbox</a>) . Автор CanCan, Ryan Bates, предлагает <a href="http://railscasts.com/episodes/192-authorization-with-cancan">RailsCast Авторизация с CanCan</a> где показывает как использовать это.</p>
+<p>Есть много способов осуществить разрешение в веб-приложении. CanCan предлагает архитектуру, которая централизует все правила разрешения (разрешения или "способности") в единственном местоположении, классе CanCan <code>Ability</code>. Для обсуждения выгоды использования единственного, объединенного местоположения для разрешений, см. статью <a href="http://lostechies.com/derickbailey/2011/05/24/dont-do-role-based-authorization-checks-do-activity-based-checks/">Не Делайте Основанных на роли Проверок Разрешения; Сделайте Основанные на деятельности Проверки</a>.</p>
+<p>CanCan обеспечивает механизм для того, чтобы он ограничить доступ на уровне контроллера и метода контроллера и ожидает, что Вы установите разрешения, основанные на пользовательских атрибутах, которые Вы определяете. CanCan не обеспечивает пользовательские признаки значения по умолчанию, такие как пользовательские роли; Вы должны осуществить это за пределами CanCan. Есть много путей <a href="https://github.com/ryanb/cancan/wiki/Role-Based-Authorization">осуществите основанное на роли разрешение</a> для использования с CanCan. Для примера, используем Florent Monbillard’s <a href="https://github.com/EppO/rolify">Rolify</a> gem для создания модели роли, добавление методов в модель пользователя, и генерации миграции для таблиц ролей.</p>
+<h3>Настройка CanCan</h3>
+<p>CanCan обеспечивает генератор Rails, чтобы создать CanCan <code>Ability</code> класс. При запуске генератор создает файл <strong>app/models/ability.rb</strong>:</p>
+<pre>
+$ rails generate cancan:ability
+</pre>
+<p>Редактируйте файл <strong>app/models/ability.rb</strong> для того чтобы определить простое правило -  предоставить разрешение администратору получить доступ к любой странице:</p>
+<pre>
+class Ability
+  include CanCan::Ability
+
+  def initialize(user)
+    user ||= User.new # guest user (not logged in)
+    if user.has_role? :admin
+      can :manage, :all
+    end
+  end
+  
+end
+</pre>
+<p>Правила, определенные в <code>Ability</code> класс, могут стать довольно сложными. Смотри CanCan wiki <a href="https://github.com/ryanb/cancan/wiki/defining-abilities">Defining Abilities</a> для деталей.</p>
+<p>Отметьте что <code>user.has_role?</code> метод еще не существует. Мы добавим метод, когда мы настроим Rolify.</p>
+<h3>Сконфигурируйте Обработку Исключения CanCan</h3>
+<p>Если пользовательская авторизация терпит неудачу, будет поднято исключение <code>CanCan::AccessDenied</code>. Смотри CanCan wiki <a href="https://github.com/ryanb/cancan/wiki/exception-handling">Exception Handling</a> для просмотра способов обработать исключения разрешения.</p>
+<p>Для этого примера, мы обработаем исключение <code>CanCan::AccessDenied</code>  в ApplicationController. Мы установим сообщение об ошибке и перенаправим к домашней странице. Измените файл <strong>app/controllers/application_controller.rb</strong> примерно так:</p>
+<pre>
+class ApplicationController &lt; ActionController::Base
+  protect_from_forgery
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path, :alert =&gt; exception.message
+  end
+end
+</pre>
+<h3>Настройте Пользовательские Роли</h3>
+<p>Мы будем использовать <a href="https://github.com/EppO/rolify">Rolify</a> gem для реализации пользовательских ролей. Rolify предостовляет Rails генератор для создания модели роли, добавляет методы в модель пользователя, и генерирует миграцию для таблицы ролей. Запустите такую команду:</p>
+<pre>
+$ rails generate rolify:role
+</pre>
+<p>Если Вы используете Mongoid с хранилищем данных MongoDB, добавьте параметры в команду:</p>
+<pre>
+$ rails generate rolify:role Role User mongoid
+</pre>
+<p>Генератор вставит <code>rolify</code> метод в <strong>app/models/users.rb</strong>, и создаст несколько файлов:</p>
+<ul>
+<li><strong>app/models/role.rb</strong></li>
+	<li><strong>config/initializers/rolify.rb</strong></li>
+	<li><strong>db/migrate/…rolify_create_roles.rb</strong></li>
+</ul><p><strong>app/models/role.rb</strong> выглядит следующим образом:</p>
+<pre>
+class Role &lt; ActiveRecord::Base
+  has_and_belongs_to_many :users, :join_table =&gt; :users_roles
+  belongs_to :resource, :polymorphic =&gt; true
+end
+</pre>Эти несколько шагов с CanCan и Rolify реализуют основанную на ролях авторизацию в нашем приложении. Мы будем использовать возможности авторизации, предоставленные CanCan и Rolify, когда мы добавим административную страницу с соответствующими ссылками.</p>
+<h2>Настройте Приложение</h2>
+<p><em>Шаг “Настройте приложение” идентичен <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a>.</em></p>
+<h3>Позвольте Пользователям Иметь Имена</h3>
+<p>По умолчанию, Devise  для индентификации пользователей использует адрес электронной почты. Мы добавим  также атрибут "name". Ваше приложение, возможно, не требует, чтобы пользователь предоставил имя. Но Вы показывая , как добавить имя, поможете себе увидеть то, что Вы должны сделать, если Вы решаете произвести изменения в модели User созданного Devise по умолчанию.</p>
+<p>Devise создал файл миграции, чтобы установить схему для базы данных SQLite с файлом миграции, названым примерно так  <strong>db/migrate/xxxxxxx_devise_create_users.rb</strong>. Мы не будем модифицировать файл миграции. Вместо этого мы добавим дополнительную миграцию, которая добавляет поле "name" в таблицу User.</p>
+<pre>
+rails generate migration AddNameToUsers name:string
+</pre>
+<p>Выполните миграцию и приготовьте тестовую базу данных, чтобы принять поле "name":</p>
+<pre>
+$ bundle exec rake db:migrate
+$ bundle exec rake db:test:prepare
+</pre>
+<p>Если Вы желаете, можно модифицировать пользовательскую модель, чтобы проверить наличие и уникальность атрибута "name". Измените файл <strong>app/models/user.rb</strong> и добавьте:</p>
+<pre>
+validates_presence_of :name
+validates_uniqueness_of :name, :email, :case_sensitive =&gt; false
+</pre>
+
+<p>Это позволит пользователям создаваться (или редактироваться) с атрибутом имени. Когда пользователь создается, имя и адреса электронной почты должен присутствовать и должен быть уникальным (не используемый прежде). Отметьте, что Devise (по умолчанию) проверит, что адрес электронной почты и пароль не пробел и что адрес электронной почты является уникальным.</p>
+<p>Вы будете также хотеть препятствовать тому, чтобы злонамеренные хакеры создали поддельные веб-формы, которые позволили бы изменять пароли через операции массового присвоения update_attributes (attrs) и новый (attrs). Devise уже добавило это в файл <strong>models/user.rb</strong>:</p>
+<pre>
+attr_accessible :email, :password, :password_confirmation, :remember_me
+</pre>
+<p>но Вы должны будете добавить атрибут "name":</p>
+<pre>
+attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+</pre>
+<p>Если Вы хотели создавать приложение с Devise Подтверждаемый модуль, также добавьте <code>:confirmed_at</code>: </p>
+<pre>
+attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :confirmed_at
+</pre>
+<h4 id="registration-views">Создайте Специализированные вьюхи для Регистрации пользователя (<span class="caps">ERB</span>)</h4>
+<p>Devise предоставляет контроллер и вьюху для регистрации пользователя. Это называют “registerable” модулем. Контроллер и вьюха скрыты в gem Devise, таким образом, мы ничего не должны создавать. Однако, если мы хотим, чтобы наши пользователи предоставляли имя регистрируясь, мы создадим пользовательские вьюхи для создания и редактирования пользователя. Наши пользовательские вьюхи отвергнут действия по умолчанию gem Devise.</p>
+<p>Во-первых, чтобы скопировать все представления Devise по умолчанию в вашем приложении , выполните</p>
+<p><code>rails generate devise:views</code></p>
+<p>Это создаст вьюхи в каталоге <strong>app/views/devise/</strong>.</p>
+<p>Далее, измените вьюхи для создания и редактирования пользователей.</p>
+<p>Добавьте следующий код к каждому файлу:</p>
+<p><strong>app/views/devise/registrations/edit.html.erb</strong></p>
+<pre>
+  &lt;p&gt;&lt;%= f.label :name %&gt;&lt;br /&gt;
+  &lt;%= f.text_field :name %&gt;&lt;/p&gt;
+</pre>
+<p><strong>app/views/devise/registrations/new.html.erb</strong></p>
+<pre>
+  &lt;p&gt;&lt;%= f.label :name %&gt;&lt;br /&gt;
+  &lt;%= f.text_field :name %&gt;&lt;/p&gt;
+</pre>
+<p>Мы не должны добавлять контроллер с методами, чтобы создать нового пользователя или отредактировать или удалить пользователя. Мы используем существующий “registerable” модуль от Devise, которое предоставляет контроллеру методы, чтобы создать, отредактировать или удалить пользователя.</p>
+<p>Отметьте, что поведение Devise по умолчанию позволяет, любой зарегистрировавшемуся пользователю, отредактировать или удалить его или её собственный запись (но не чужие). Когда Вы получаете доступ к странице редактирования , Вы редактируете только свою информацию, но не информацию других пользователей.</p>
+<h3>Создание Собственной Вьюхи для Регистрации Пользователей (Haml)</h3>
+<p>Если Вы используете Haml, Devise не генерирует вьюхи для Haml (так делало Devise ранее v 1.2; смотри <a href="https://github.com/plataformatec/devise/issues/878">Devise issue 878</a>). Смотри <a href="https://github.com/plataformatec/devise/wiki/How-To:-Create-Haml-and-Slim-Views">Как Создать Haml и Тонкие Вьюхи</a> на Devise wiki.</p>
+<p>Если вы используете Haml, вы можете сгенерировать <span class="caps">ERB</span> файлы используя <code>rails generate devise:views</code> и сконвертировать их используя онлайн инструмент <a href="http://html2haml.heroku.com/">Html2Haml</a>. Вы должны будете удалить <strong>.erb</strong> файлы и заменить <strong>app/views/devise/registrations/edit.html.haml</strong> и <strong>app/views/devise/registrations/new.html.haml</strong>.</p>
+<h2>Создание Домашней Страницы</h2>
+<p><em>Шаг “Создание Домашней Страницы” идентичен описанному в <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a>.</em></p>
+<h3>Удаление Домашней Страницы по умолчанию</h3>
+<p>Удаление Домашней Страницы по умолчанию из вашего приложения:</p>
+<p><code>$ rm public/index.html</code></p>
+<h3>Создание контроллера и вьюхо для домашней страницы</h3>
+<p>Создайте первую страницу приложения. Используйте команду Rails для генерации, чтобы создать "Home" контроллер и страницу "views/home/index". Укажите <code>--no-controller-specs</code> чтобы избежать перезаписи файлов RSpec которые Вы уже загрузили.</p>
+<p><code>$ rails generate controller home index --no-controller-specs</code></p>
+<p>Если Вы будете использовать движок шаблонов по умолчанию, то Вы обнаружите <strong>erb</strong> файл заполненый контентом:</p>
+<p><strong>app/views/home/index.html.erb</strong></p>
+<p>Далее, установите роутинг к вашей домашней страничке. Отредактируйте файл <strong>config/routes.rb</strong> и замените:</p>
+<p><code>get "home/index"</code></p>
+<pre>
+authenticated :user do
+  root :to =&gt; 'home#index'
+end
+
+root :to =&gt; "home#index"
+</pre>
+<p> Если Вы исследуете этот код, то Вы  увидете, что аутентифицируемые пользователи (те, кто имеет учетную запись и зарегистрирован), будут видеть дом/классификационную страницу как корневой каталог приложения (или домашнюю) страницу. Другие пользователи (те, у кого нет учетной записи или кто не зарегистрирован) будут видеть ту же самую домашнюю страницу. Избыточность служит дидактической цели: Если Вы решите, что хотите, чтобы пользователи видели разные страницы, когда они входят в систему, Вы теперь знаете точно, где изменить это. </p>
+<p>По умолчанию, Devise перенаправит к root_path после успешной регистрации или выхода. Легко изменить root_path как показано в <strong>config/routes.rb</strong> файле. Либо, можно переопределить методы Devise <code> after_sign_in_path_for </code> и <code> after_sign_out_path_for </code> как описано в Devise статье wiki <a href="https://github.com/plataformatec/devise/wiki/How-To%3A-Redirect-to-a-specific-page-on-successful-sign-in-out">Как Перенаправить к Определенной Странице</a>.</p>
+<h3>Тестирование приложения</h3>
+<p>Можно проверить, что Ваше приложение работает должным образом, введя команду</p>
+<p><code>$ rails server</code></p>
+<p>Чтобы видеть Ваше приложение в движении, откройте окно браузера и переместитесь к <href = "http://localhost:3000"> http://localhost:3000 / </a>. Следует видеть свою новую домашнюю страницу.</p>
+<p>Остановить сервер можно нажатием Control-C.</p>
+<h2></h2>
+<p><em>Шаг “Выведите на экран Пользователей на Домашней странице” аналогичен в учебнике <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a>.</em></p>
+<p>Измените файл <strong>app/controllers/home_controller.rb</strong> и добавьте:</p>
+<pre>
+def index
+  @users = User.all
+end
+</pre>
+<p>Измените файл <strong>app/views/home/index.html.erb</strong> и добавьте:</p>
+<pre>
+&lt;h3&gt;Home&lt;/h3&gt;
+&lt;% @users.each do |user| %&gt;
+  &lt;p&gt;User: &lt;%= user.name %&gt; &lt;/p&gt;
+&lt;% end %&gt;
+</pre>
+<p>Этот код не адекватен развертыванию в реальном приложении. Вы, вероятно, не будете хотеть вывести на экран список потребителей на домашней странице. Однако, это удобно для нашего примера.</p>
+<h2>Создание пользователя по умолчанию</h2>
+<h3>Установка файла заполнения Базы данных</h3>
+<p><em>Шаг “Set Up a Database Seed File” аналогичен подробному руководству <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a> . Здесь мы добавляем код, чтобы сделать первого потребителя администратором.</em></p>
+<p>Вы будете устанавливать пользователя по умолчанию, таким образом, можно будет протестировать приложение. Измените файл <strong>db/seeds.rb</strong> добавив туда:</p>
+<pre>
+puts 'SETTING UP DEFAULT USER LOGIN'
+user = User.create! :name =&gt; 'First User', :email =&gt; 'user@example.com', :password =&gt; 'please', :password_confirmation =&gt; 'please'
+puts 'New user created: ' &lt;&lt; user.name
+user2 = User.create! :name =&gt; 'Second User', :email =&gt; 'user2@example.com', :password =&gt; 'please', :password_confirmation =&gt; 'please'
+puts 'New user created: ' &lt;&lt; user2.name
+user.add_role :admin
+</pre>
+<p>Если Вы хотели создавать приложение с Devise Подтверждаемый модуль, добавьте поле <code>confirmed_at</code>:</p>
+<pre>
+puts 'SETTING UP DEFAULT USER LOGIN'
+user = User.create! :name =&gt; 'First User', :email =&gt; 'user@example.com', :password =&gt; 'please', :password_confirmation =&gt; 'please', :confirmed_at =&gt; DateTime.now
+puts 'New user created: ' &lt;&lt; user.name
+user2 = User.create! :name =&gt; 'Second User', :email =&gt; 'user2@example.com', :password =&gt; 'please', :password_confirmation =&gt; 'please', :confirmed_at =&gt; DateTime.now
+puts 'New user created: ' &lt;&lt; user2.name
+user.add_role :admin
+</pre>
+<p>Вы должны изменить значения  name, email, и password на свои.</p>
+<h3>Заполнение Database</h3>
+<p>Добавление пользователя по умолчанию в базу данных производится запуском команды:</p>
+<p><code>$ bundle exec rake db:seed</code></p>
+<p>Если Вам нужно, можно сделать так <code>$ bundle exec rake db:reset</code> очистить базу  и заново заполнить используя seeds.rb файл.</p>
+<p>Если задача прошла со сбоем “Validation failed: Имя не может быть пробелом”, следует проверить, что файл <strong>models/user.rb</strong> позволяет атрибуту "name" быть обновленным:</p>
+<pre>
+attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+</pre>
+<h3>Тестирование приложения</h3>
+<p>В этой точке можно узнать, был ли пользователь по умолчанию сохранен в базе данных.</p>
+<p>Можно проверить, что Ваше приложение работает должным образом, вводя команду</p>
+<p><code>$ rails server</code></p>
+<p>Чтобы видеть Ваше приложение в движении, откройте окно браузера и переместитесь к <a href="http://localhost:3000">http://localhost:3000/</a>. Вы должны увидеть вашу новую домашнюю страницу.</p>
+<p>Остановка сервера производится комбинацией клавиш Control-C.</p>
+<h2>Добавить ссылки на пользователей  на вашей домашней странице</h2>
+<p><em>Шаг “Добавить ссылки на пользователей  на вашей домашней странице” аналогичен действиям в учебнике <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a>.</em></p>
+<p>Вы уже модифицировали файл <strong>app/controllers/home_controller.rb</strong> включите это:</p>
+<pre>
+def index
+  @users = User.all
+end
+</pre>
+<p>Теперь модифицируйте файл <strong>app/views/home/index.html.erb</strong> примерно так:</p>
+<pre>
+&lt;h3&gt;Home&lt;/h3&gt;
+&lt;% @users.each do |user| %&gt;
+  &lt;p&gt;User: &lt;%=link_to user.name, user %&gt;&lt;/p&gt;
+&lt;% end %&gt;
+</pre>
+<p>Этот код не адекватен развертыванию в реальном приложении. Вы, вероятно, не будете хотеть вывести на экран список пользователей на домашней странице. Однако, это удобно для нашего примера.</p>
+<p>Ссылки к профилю пользователей еще не будут работать; в следующем разделе мы создадим контроллер пользователей, маршруты, и вьюхи</p>
+<h2>Установка Контроллера Пользователей, Маршрутов, и Вьюх</h2>
+<p><em>Шаг "Установка Контроллера Пользователей, Маршрутов, и Вьюх" аналогичен подробному учебнику <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a>. Здесь мы устанавливаем UsersController, чтобы продемонстрировать авторизациию в более позднем шаге.</em></p>
+<h3>Создание контроллера Users </h3>
+<p>Используйте команду генерации Rails для создания контроллера “users”  и страницы “views/user/show” . Вы должны указать <code>--no-controller-specs</code> если вы уже скачали RSpec файлы для примера приложения.</p>
+<p><code>$ rails generate controller users index show --no-controller-specs</code></p>
+<p>Отметьте, когда Вы создаете контроллер, что "users" - множественное число.</p>
+<h3>Установка роутинга для Users </h3>
+<p>Файл <strong>config/routes.rb</strong> уже модифицированн и содержит:</p>
+<pre>
+get "users/index"
+get "users/show"
+</pre>
+<p>Удалите это и установите пути вот так:</p>
+<pre>
+root :to =&gt; "home#index"
+devise_for :users
+resources :users, :only =&gt; [:show, :index]
+</pre>
+<p>Важная заметка: Маршрут <code> devise_for:users </code>  должен быть помещен выше  <code>resources :users, :only =&gt; [:show, :index]  </code>.</p>
+<h3>Установка Users#Show Page</h3>
+<p>Измените файл <strong>app/views/users/show.html.erb</strong> и добавьте:</p>
+<pre>
+&lt;p&gt;User: &lt;%= @user.name %&gt;&lt;/p&gt;
+&lt;p&gt;Email: &lt;%= @user.email if @user.email %&gt;&lt;/p&gt;
+</pre>
+<p>В типичном приложении эта страница могла бы обеспечить дополнительные подробные данные об учетной записи пользователя.</p>
+<h3>Установка Users#Index Page</h3>
+<p>Для целей нашего примера эта страница будет доступна только для администраторов. Это выведет на экран список всех пользователей приложения.</p>
+<p>Измените файл <strong>app/views/users/index.html.erb</strong> и добавьте:</p>
+<pre>
+&lt;ul class="users"&gt;
+  &lt;% @users.each do |user| %&gt;
+    &lt;li&gt;
+      &lt;%= link_to user.name, user %&gt; signed up &lt;%= user.created_at.to_date %&gt;
+    &lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+</pre>
+<p>Мы хотим ограничить доступ к странице <strong>Users#index</strong> с <href = "http://localhost:3000/users"> http://localhost:3000/users </a>. В следующем разделе мы будем устанавливать авторизацию таким образом, что страница будет доступна только для администраторов. </p>
+<h2>Установка Демонстрации CanCan</h2>
+<p><em>Шаг  “Установка Демонстрации Devise” аналогичен учебнику <a href="https://github.com/RailsApps/rails3-devise-rspec-cucumber">rails3-devise-rspec-cucumber</a>. Здесь мы добавляем код, чтобы ограничить доступ к <code>index</code> методу UsersController.</em></p>
+<p>Вы будете хотеть видеть, как CanCan используется, чтобы дать доступ только администратору.</p>
+<h3>Первый Пример Авторизации: Контроллер пользователей с CanCan “@authorize!”</h3>
+<p>Измените файл <strong>app/controllers/users_controller.rb</strong> как здесь:</p>
+<pre>
+class UsersController &lt; ApplicationController
+  before_filter :authenticate_user!
+
+  def index
+    authorize! :index, @user, :message =&gt; 'Not authorized as an administrator.'
+    @users = User.all
+  end
+
+  def show
+    @user = User.find(params[:id])
+  end
+
+end
+</pre>
+<p>Только одна строка программы необходима, чтобы ограничить доступ к <strong>Users#index</strong> странице в <br> <href = "http://localhost:3000/users"> http://localhost:3000/users </a>:</p>
+<pre>
+authorize! :index, @user, :message =&gt; 'Not authorized as an administrator.'
+</pre>
+<p>CanCan <code>authorize!</code> метод проверит CanCan <code>Ability</code> класс, чтобы определить, есть ли у пользователя разрешение, чтобы выполнить <code>index</code> метод. Мы ранее установили правило в <code>Ability</code> определение класса, которое дает потребителю в роли администратора возможность выполнить все методы:</p>
+<pre>
+if user.has_role? :admin
+  can :manage, :all
+end
+</pre>
+<p>Для других потребителей не присутствует никакое правило, так по умолчанию, другие потребители отстраняются от выполнения <code>index</code> метода.</p>
+<p>Этот подход - самый очевидный способ реализовать использование авторизации с CanCan. Однако, CanCan предлагает удобные методы , которые могут удалить лишний код контроллера в некоторых приложениях. Следующий пример показывает, как использовать удобные методы CanCan, чтобы уменьшить объем кода в Ваших контроллерах.</p>
+<h3>Второй пример авторизации:  Контроллер Users с CanCan использующий “load_and_authorize_resource”</h3>
+<p>CanCan обеспечивает удобный метод <code>authorize_resource</code> это применяет <code>authorize!</code> метод к каждому движению в контроллере. Другой удобный метод <code>load_resource</code> запрашивает базу данных и загружает ресурсы, требуемые каждым движением(для примера, <code>users = User.all</code> для <code>index</code> действия). Третий удобный метод комбинирует два предыдущих <code>load_and_authorize_resource</code>.</p>
+<p>Используйте <code>load_and_authorize_resource</code>, если вы устанавливаете <strong>app/controllers/users_controller.rb</strong> как здесь:</p>
+<pre>
+class UsersController &lt; ApplicationController
+  before_filter :authenticate_user!
+  load_and_authorize_resource :only =&gt; :index
+
+  def show
+    @user = User.find(params[:id])
+  end
+
+end
+</pre>
+<p>Действие <code>index</code>  не должен быть объявлен, потому что Rails обеспечивает это по умолчанию.</p>
+<p>Если не администратор пытается просмотреть на <a href="http://localhost:3000/users">http://localhost:3000/users</a> он или она будет перенаправлен на главную страницу (, как указано в <code>rescue_from CanCan::AccessDenied</code> в ApplicationController) и увидит общее сообщение об исключении CanCan автора, "Вы не авторизованы для доступа к этой странице.” Вы можете настроить сообщение об исключении в ApplicationController, если хотите.</p>
+<p>Некоторым разработчикам понравится этот подход; другие будут чувствовать, что это высушило код за счет представления уровней черной магии. Если Вы предпочитаете более явный подход, следующий пример показывает, как осуществить простое основанное на роли разрешение, не используя CanCan вообще.</p>
+<h3>Третий пример авторизации: Users контроллер без CanCan</h3>
+<p>Подразумеваемая выгода использования CanCan является преимуществом поддержания правил разрешения в одном местоположении - в классе <code>Ability</code>. Это может быть вопросом вкуса; Вы можете предпочесть ограничивать код разрешения только контроллерами, которые нуждаются в нем.</p>
+<p>Вот пример ограничения доступа к странице <strong>Users#index</strong> , используя только методы, обеспеченные <href = "https://github.com/EppO/rolify"> Rolify </a> gem. CanCan не используется.</p>
+<pre>
+class UsersController &lt; ApplicationController
+  before_filter :authenticate_user!
+  before_filter :only_allow_admin, :only =&gt; [ :index ]
+
+  def index
+    @users = User.all
+  end
+
+  def show
+    @user = User.find(params[:id])
+  end
+
+  private
+
+  def only_allow_admin
+    redirect_to root_path, :alert =&gt; 'Not authorized as an administrator.' unless current_user.has_role? :admin
+  end
+
+end
+</pre>
+<p>Если многие контроллеры будут использовать метод <code>only_allow_admin</code>  , он может быть перемещен в ApplicationController, таким образом, все контроллеры унаследуют этот метод.</p>
+<p>В отличие от CanCan, вся логика разрешения определена в контроллере. Для маленького приложения этот подход является более простым и менее запутывающим. Вы можете счесть этот подход предпочтительным для использования CanCan, если Ваше приложение только требует простого основанного на роли разрешения. Однако, для большого или сложного приложения с многократными ролями и многими принужденными действиями, CanCan предлагает лучшее <a href="http://en.wikipedia.org/wiki/Separation_of_concerns">разделение задач</a>.</p>
+<h2>Создание приложения Layout</h2>
+<p>Rails будут использовать макет, определенный в файле <strong>app/views/layouts/application.html.erb</strong> как значение по умолчанию для того, чтобы представить любую страницу. Если вы используете Haml, файл будет <strong>app/views/layouts/application.html.haml</strong>.</p>
+<p>Вы будете хотеть добавить навигационные ссылки, включать сообщения вспышки для ошибок и уведомлений, и применить стиль <span class="caps">CSS</span> .</p>
+<p>Этот учебник покажет код использующий <span class="caps">ERB</span>,язык для шаблонов по умолчанию для Rails . Если Вы предпочитаете использовать Haml, см. подробное руководство <a href="http://railsapps.github.com/rails-default-application-layout.html"> Макеты по умолчанию для приложения Rails на HTML5</a>.</p>
+<h3>Навигационные ссылки</h3>
+<p>Вы будете, вероятно, нуждаться в навигационных ссылках на каждой странице Вашего веб-приложения. Вы будете хотеть ссылку для домашней страницы. Вы будете хотеть ссылку для  регистрации, выхода, авторизации. И пользователь, который является администратором, должен видеть ссылку для Admin.</p>
+<p>Вы можете добавить навигационные ссылки непосредственно к Вашему файлу расположения приложения, но много разработчиков предпочитают создавать <a href="http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials">частичный шаблон</a> – чтобы лучше организовать макет приложения по умолчанию.</p>
+<p>Создайте файл <strong>app/views/layouts/_navigation.html.erb</strong> для навигационных ссылок:</p>
+<pre>
+&lt;%= link_to "Rails3 Bootstrap Devise Cancan", root_path, :class =&gt; 'brand' %&gt;
+&lt;ul class="nav"&gt;
+  &lt;% if user_signed_in? %&gt;
+    &lt;li&gt;
+    &lt;%= link_to('Logout', destroy_user_session_path, :method=&gt;'delete') %&gt;        
+    &lt;/li&gt;
+  &lt;% else %&gt;
+    &lt;li&gt;
+    &lt;%= link_to('Login', new_user_session_path)  %&gt;  
+    &lt;/li&gt;
+  &lt;% end %&gt;
+  &lt;% if user_signed_in? %&gt;
+    &lt;li&gt;
+    &lt;%= link_to('Edit account', edit_user_registration_path) %&gt;
+    &lt;/li&gt;
+    &lt;% if current_user.has_role? :admin %&gt;
+      &lt;li&gt;
+      &lt;%= link_to('Admin', users_path) %&gt;
+      &lt;/li&gt;
+    &lt;% end %&gt;
+  &lt;% else %&gt;
+    &lt;li&gt;
+    &lt;%= link_to('Sign up', new_user_registration_path)  %&gt;
+    &lt;/li&gt;
+  &lt;% end %&gt;
+&lt;/ul&gt;
+</pre>
+<p>Заметьте условие <code>&lt;% if current_user.has_role? :admin %&gt;</code> оно использует <code>has_role?</code> метод предоставляемый gem Rolify. Ссылка Admin выведет на экран, только если пользователь - администратор.</p>
+<h3>Flash message</h3>
+<p>Rails обеспечивает стандартное соглашение о выводе на экран предупреждения (включая сообщения об ошибках) и другие уведомления (включая сообщения успеха), названный Rails “flash messages” (как во "flash memory", не перепутайте с “Adobe Flash” платной платформой веб-разработки).</p>
+<p>Вы можете включить код, чтобы вывести на экран flash message непосредственно в Вашем файле приложения, или Вы можете создать partial.</p>
+<p>Создайте partial для flash message в <strong>app/views/layouts/_messages.html.erb</strong> похожим на это:</p>
+<pre>
+&lt;% flash.each do |name, msg| %&gt;
+  &lt;div class="alert alert-&lt;%= name == :notice ? "success" : "error" %&gt;"&gt;
+    &lt;a class="close" data-dismiss="alert"&gt;&amp;#215;&lt;/a&gt;
+    &lt;%= content_tag :div, msg, :id =&gt; "flash_#{name}" if msg.is_a?(String) %&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+</pre>
+<p>Rails использует <code>:notice</code> и <code>:alert</code> как ключи для flash message. Twitter Bootstrap предоставляет базовый класс <code>.alert</code> с дополнительным классом <code>.alert-success</code> и <code>.alert-error</code> (см. статью <a href="http://twitter.github.com/bootstrap/components.html#alerts">Bootstrap documentation on alerts</a>). Немного парсинга заставляет сообщение "notice" Rails быть разработанным в стиле "alert-success" Twitter Bootstrap. Другие сообщения, включенные в Rails “alert” сообщение, должны быть сделаны в стиле Twitter Bootstrap “alert-error”.</p>
+<p>Twitter Bootstrap предоставляет jQuery plugin названное предупреждение начальной загрузки, которое облегчает отклонять сообщения вспышки щелчком. Данные - отклоняют дисплеи свойства “x”, который включает близкой функциональности. Отметьте, что  Twitter Bootstrap использует <span class="caps"> HTML </промежуток> объект “&amp;#215;” вместо нажатия "x" на клавиатуре.</p>
+<p>По умолчанию, Twitter Bootstrap использует зеленый фон в <code>.alert-success</code> и красный фон в <code>.alert-error</code>. Twitter Bootstrap предоставляет третий класс <code>.alert-info</code> с синим фоном. С небольшим взламыванием, возможно создать Rails flash message с пользовательским именем, такой как <code>:info</code>, это выведет на экран с Bootstrap класс
+ <code>.alert-info</code>. Однако, мудро придерживаться соглашения Rails о использовании, только “alert” и “notice.”</p>
+<h3>
+<span class="caps">CSS</span> Стили с <span class="caps">SASS</span>
+</h3>
+<p>Это хорошая идея пеименовать файл <strong>app/assets/stylesheets/application.css</strong> как <strong>app/assets/stylesheets/application.css.scss</strong>.</p>
+<p>Это позволит Вам использовать преимущества <span class="caps">SASS</span> синтаксиса  и функции для таблиц стилей вашего приложения. Для познания больших преимуществ <span class="caps">SASS</span> и как использовать это, смотрите <a href="http://railscasts.com/episodes/268-sass-basics"><span class="caps">SASS</span> Basics</a> RailsCast от Ryan Bates.</p>
+<h3>
+<span class="caps">CSS</span>  с Twitter Bootstrap</h3>
+<p><a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> и другие <span class="caps">CSS</span> front-end frameworks (такие как <a href="http://foundation.zurb.com/">Zurb Foundation</a>) и другие наборы инструментов обеспечива.n вид структуры и соглашения, которые делают Rails популярными средствами разработки для стороны сервера ("back-end") . Вы можете использовать Twitter Bootstrap быстрого добавления привлекательности <span class="caps">CSS</span> стилям вашего приложения. Если вы гененрируете ваше приложение используя инструмент <a href="http://railsapps.github.com/rails-composer/">Rails Composer</a>, программа предложит установить Twitter Bootstrap или другой <span class="caps">CSS</span> front-end frameworks и настроить Ваше приложения значениями по умолчанию соответственно.</p>
+<p>Несколько опций доступны для установки Twitter Bootstrap в приложении Rails.  Twitter Bootstrap может быть установлена, используя любого ее уроженца <a href="http://lesscss.org/"><span class="caps">LESS</span> <span class="caps">CSS</span></a> язык или <a href="http://sass-lang.com/"><span class="caps">SASS</span></a> язык, который является значением по умолчанию для <span class="caps">CSS</span> файлов в  Rails. Смотри статью <a href="http://rubysource.com/twitter-bootstrap-less-and-sass-understanding-your-options-for-rails-3-1/"> Twitter Bootstrap, Less, and Sass: Understanding Your Options for Rails 3.1</a>. <span class="caps">SASS</span> по умолчанию для <span class="caps">CSS</span> разработка в  Rails. Я рекомендую вам установить Thomas McDonald’s <a href="https://github.com/thomas-mcdonald/bootstrap-sass">bootstrap-sass</a> gem.</p>
+<p>В ваш <strong>Gemfile</strong>, вы должны добавить:</p>
+<pre>
+gem 'bootstrap-sass'
+</pre>
+<p>и заново  выполнить <code>$ bundle install</code>.</p>
+<p>Для ключенния файлов Twitter Bootstrap Javascript измените файл <strong>app/assets/javascripts/application.js</strong>:</p>
+<pre>
+//= require jquery
+//= require jquery_ujs
+//= require bootstrap
+//= require_tree
+</pre>
+<p>Дальше, импортируйте Twitter Bootstrap <span class="caps">CSS</span> файлы. Вы можете изменить <strong>app/assets/stylesheets/application.css.scss</strong> файлы импорта Bootstrap. Однако, я рекомендую добавить новые файлы <strong>app/assets/stylesheets/bootstrap_and_overrides.css.scss</strong>. Вы можете захотеть изменить Twitter Bootstrap <span class="caps">CSS</span> правила; Вы можете сделать так в <strong>application.css.scss</strong> файле <span class="caps">CSS</span> Сохранение правил в  файле <strong>bootstrap_and_overrides.css.scss</strong> сохранит Вашу <span class="caps">CSS</span> лучше организованный.</p>
+<p>Файл <strong>app/assets/stylesheets/bootstrap_and_overrides.css.scss</strong> автоматически включаются и компилируются в вашем Rails файле application.css <code>*= require_tree .</code> заявленном в файле <strong>app/assets/stylesheets/application.css.scss</strong>.</p>
+<p>Добавьте в файл <strong>app/assets/stylesheets/bootstrap_and_overrides.css.scss</strong>:</p>
+<pre>
+@import "bootstrap";
+body { padding-top: 60px; }
+@import "bootstrap-responsive";
+</pre>
+<p>Файл будет импортировать как основные правила Bootstrap <span class="caps">CSS</span> так и Bootstrap правила отзывчивого дизайна (позволяющий макету изменить размеры для различных устройств и экранных размеров).</p>
+<p>Правило <span class="caps">CSS</span> <code>body { padding-top: 60px; }</code> применяет дополнительное <span class="caps">CSS</span> правила приспособления “Bootstrap black bar” заголовка созданного <code>navbar-fixed-top class</code> в <code>header</code> тэге в макете.</p>
+<p>Наконец, покажем пример добавления <span class="caps">CSS</span> правил. Это будет использоваться на каждой странице Вашего приложения. Следующий код создает хорошее серое поле как фон, чтобы пролистать контент.</p>
+<p>Добавьте в ваш файл <strong>app/assets/stylesheets/application.css.scss</strong> для серого фона:</p>
+<pre>
+.content {
+  background-color: #eee;
+  padding: 20px;
+  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+</pre>
+<h3>Приложение по умолчанию с Twitter Bootstrap</h3>
+<p>Новое Rails приложение созданое командой <code>rails new</code> создаст приложение  с макетом по умолчанию в файле <strong>app/views/layouts/application.html.erb</strong>. Измените файл добавив навигационные ссылки, включите flash messages, и стилевые обращения  <span class="caps">CSS</span>. Twitter Bootstrap предоставляет дополнительные элементы для большей завершенности макета страницы.</p>
+<p>Используйте код ниже, чтобы включить рекомендации из статьи <a href="http://railsapps.github.com/rails-html5-boilerplate.html">HTML5 Boilerplate for Rails Developers</a>.</p>
+<p>Замените содержание в файле <strong>app/views/layouts/application.html.erb</strong> вот этим:</p>
+<pre>
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;&lt;%= content_for?(:title) ? yield(:title) : "Myapp" %&gt;&lt;/title&gt;
+    &lt;meta name="description" content=""&gt;
+    &lt;meta name="author" content=""&gt;
+    &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;
+    &lt;%= javascript_include_tag "application" %&gt;
+    &lt;%= csrf_meta_tags %&gt;
+    &lt;%= yield(:head) %&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header class="navbar navbar-fixed-top"&gt;
+      &lt;nav class="navbar-inner"&gt;
+        &lt;div class="container"&gt;
+          &lt;%= render 'layouts/navigation' %&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;
+    &lt;div id="main" role="main"&gt;
+      &lt;div class="container"&gt;
+        &lt;div class="content"&gt;
+           &lt;div class="row"&gt;
+            &lt;div class="span12"&gt;
+              &lt;%= render 'layouts/messages' %&gt;
+              &lt;%= yield %&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;footer&gt;
+          &lt;/footer&gt;
+        &lt;/div&gt;
+      &lt;/div&gt; &lt;!--! end of .container --&gt;
+    &lt;/div&gt; &lt;!--! end of #main --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<h3>Опции и Усовершенствования</h3>
+<p>Ваш значения по умолчанию макета приложения определяет взгляды-и-чувства Вашего приложения. У Вас теперь есть основы с навигационными ссылками, сообщениями для предупреждений и уведомлениями, и <span class="caps">CSS</span> стилями использующими Twitter Bootstrap.</p>
+<p>Есть намного больше, Вы можете сделать. Для усовершенствованного примера, см. RailsApp <a href="https://github.com/RailsApps/rails-prelaunch-signup">rails-prelaunch-signup</a> пример приложения. Учебник <a href="http://railsapps.github.com/tutorial-rails-prelaunch-signup.html">rails-prelaunch-signup tutorial</a>покажет как использовать Twitter Bootstrap и добавлять модальные окна и <span class="caps">AJAX</span> для “sign up” форм “Web 2.0” приложений. Когда посетитель посылает форму, модальное окно изменяется, чтобы вывести на экран сообщение "спасибо" (или сообщение об ошибке) без перерисовки страницы.</p>
+<h2>Уборка</h2>
+<p>Несколько ненужных файлов произведены в процессе создания нового приложения Rails.</p>
+<p>Дополнительно, Вы можете хотеть препятствовать тому, чтобы поисковые системы индексировали Ваш веб-сайт, если Вы развернули его публично в то время как все еще в развитии.</p>
+<p>Смотрите инструкции для <a href="http://railsapps.github.com/rails-cleanup.html">очистки от ненужных файлов в Rails и забанивания пауков-роботов</a>.</p>
+<h2>Тестирование приложения</h2>
+<p>Вы можете проверить, что Ваше приложение работает должным образом, вводя команду</p>
+<p><code>$ rails server</code></p>
+<p>Чтобы видеть Ваше приложение в действии, откройте окно браузера и переместитесь к <a href="http://localhost:3000">http://localhost:3000/</a>. Вы должны видеть пользователя по умолчанию, перечисленного на домашней странице. Когда Вы щелкаете по имени пользователя, Вы должны войти в систему прежде, чем увидеть страницу деталей  пользователя.</p>
+<p>Зарегистрироваться как первый пользователь (администратор), (если Вы не изменили это).</p>
+<ul>
+<li>email: user@example.com</li>
+	<li>password: please</li>
+</ul><p>Вы будете видеть навигационную ссылку для Admin. Щелчок по ссылке выведет на экран страницу со списком пользователей в<br><a href="http://localhost:3000/users">http://localhost:3000/users</a>.</p>
+<p>Регистрироваться как второй пользователь, (если Вы не изменили это)</p>
+<ul>
+<li>email: user2@example.com</li>
+	<li>password: please</li>
+</ul><p>Второй пользователь не будет видеть ссылку навигации Admin и не будет в состоянии получить доступ к странице в<br><a href="http://localhost:3000/users">http://localhost:3000/users</a>.</p>
+<p>Остановка сервера производится комбинацией Control-C.</p>
+<h2>Развертывание на Heroku</h2>
+<p>Heroku обеспечивает низкую цену, легко сконфигурированный хостинг приложения Rails. Для Вашего удобства, см. <a href="http://railsapps.github.com/rails-heroku-tutorial.html">Учебник: Rails on Heroku</a>.</p>
+<h2>Заключение</h2>
+<p>Это завершает обучающую программу для того, чтобы создать Ruby on Rails приложение, которое использует Devise и добавляет <a href="https://github.com/ryanb/cancan">CanCan</a> и <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>.</p>
+<h3>Кредиты</h3>
+<p>Daniel Kehoe осуществил приложение и написал обучающую программу.</p>
+<p>Действительно ли это было полезно для Вас? Следуйте <a href="http://twitter.com/rails_apps">rails_apps</a> на Twitter и чирикните несколько похвал. Я хотел бы знать, что Вы были выручены обучающей программой.</p>
+<p>Какие-либо проблемы? Пожалуйста, создайте <a href="http://github.com/RailsApps/rails3-bootstrap-devise-cancan/issues">Проблема</a> на GitHub.</p>
+    </div><!-- class="content" -->
+    
+    <div class="comments">
+      <div class="content wikistyle gollum">
+        <h2>Comments</h2>
+      </div>
+      <p>Действительно ли это полезно? Ваша поддержка питает проект. Пожалуйста, чирикните или добавьте комментарий. Не мог заставить что-то работать? Для приложений в качестве примера и обучающих программ, лучше открывать проблему о GitHub, таким образом, мы можем помочь Вам.</p> 
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'railsapps'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div><!-- class="comments" -->
+
+    <div class="footer row">
+      <div class="span4">
+      </div>
+    
+      <div class="span4">
+       </div>
+
+      <div class="span4">
+      </div>
+    </div>
+
+  </div>
+            
+  </body>
+</html>
